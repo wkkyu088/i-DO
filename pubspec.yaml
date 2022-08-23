@@ -79,6 +79,12 @@ flutter:
     - family: BMJUA
       fonts:
         - asset: assets/fonts/BMJUA_ttf.ttf
+    - family: NanumSquareR
+      fonts:
+        - asset: assets/fonts/NanumSquareR.ttf
+    - family: NanumSquareB
+      fonts:
+        - asset: assets/fonts/NanumSquareB.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

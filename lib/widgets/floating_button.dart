@@ -1,36 +1,53 @@
 import 'package:flutter/material.dart';
 
-import 'custom_appbar.dart';
+import './create_modal.dart';
 import '../constants.dart';
 
-class FloatingButton extends StatefulWidget {
-  const FloatingButton({Key? key}) : super(key: key);
-
-  @override
-  State<FloatingButton> createState() => _FloatingButtonState();
-}
-
-class _FloatingButtonState extends State<FloatingButton> {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {},
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusL),
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: BoxDecoration(
-            borderRadius: kBorderRadiusL,
-            gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [kBtn1, kBtn2])),
-        child: const Icon(
-          Icons.add_rounded,
-          size: 45,
+Widget floatingButton(context, mode) {
+  return SizedBox(
+    width: 65,
+    height: 65,
+    child: FittedBox(
+      child: FloatingActionButton(
+        onPressed: () {
+          mode == 'open'
+              ? showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  constraints: BoxConstraints.loose(Size(
+                      MediaQuery.of(context).size.width,
+                      MediaQuery.of(context).size.height * 0.85)),
+                  builder: (BuildContext context) {
+                    return const SingleChildScrollView(child: CreateModal());
+                  },
+                )
+              : {
+                  Navigator.pop(context),
+                  for (int i = 0; i < checked.length; i++)
+                    {if (checked[i] == true) checked[i] = false},
+                  if (days[0] == false) days[0] = true,
+                  if (days[1] == true) days[1] = false,
+                  if (days[2] == true) days[2] = false,
+                };
+        },
+        elevation: mode == 'open' ? 6 : 0,
+        highlightElevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: kBorderRadiusL),
+        child: Container(
+          width: 65,
+          height: 65,
+          decoration: BoxDecoration(
+              borderRadius: kBorderRadiusL,
+              gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [kBtn1, kBtn2])),
+          child: mode == 'open'
+              ? Icon(Icons.add_rounded, color: kWhite, size: 48)
+              : Icon(Icons.close_rounded, color: kWhite, size: 45),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
