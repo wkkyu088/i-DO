@@ -23,12 +23,11 @@ class _SuccessListScreenState extends State<SuccessListScreen> {
   bool isEmptySuccess = true;
 
   void setEmptySuccess() {
-    for (int i = 0; i < items.length; i++) {
-      if (items[i].isDone == '성공') {
+    items.forEach((key, value) {
+      if (value.isDone == '성공') {
         isEmptySuccess = false;
-        break;
       }
-    }
+    });
   }
 
   @override
@@ -49,7 +48,7 @@ class _SuccessListScreenState extends State<SuccessListScreen> {
           duration: duration,
           opacity: _showFab ? 1 : 0,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 10),
             child: floatingButton(context, 'open'),
           ),
         ),
@@ -75,15 +74,17 @@ class _SuccessListScreenState extends State<SuccessListScreen> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: items.length,
                     itemBuilder: (context, i) {
-                      if (items[i].isDone == '성공') {
+                      String key = items.keys.elementAt(i);
+                      if (items[key]!.isDone == '성공') {
                         return challengeCard(
                             context,
-                            i,
-                            items[i].days,
-                            items[i].title,
-                            items[i].startDate,
-                            items[i].endDate,
-                            items[i].isDone);
+                            items[key]!.id,
+                            items[key]!.colors,
+                            items[key]!.days,
+                            items[key]!.title,
+                            items[key]!.startDate,
+                            items[key]!.endDate,
+                            items[key]!.isDone);
                       }
                       return Container();
                     },

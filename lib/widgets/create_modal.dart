@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ido/widgets/custom_dialog.dart';
 import 'package:ido/widgets/floating_button.dart';
+import '../screens/challenge_screen.dart';
 
 import '../constants.dart';
+import '../models/item.dart';
+import '../models/test.dart';
 
 class CreateModal extends StatefulWidget {
   const CreateModal({Key? key}) : super(key: key);
@@ -11,11 +15,18 @@ class CreateModal extends StatefulWidget {
 }
 
 class _CreateModalState extends State<CreateModal> {
-  final selectedColor = [kLightGrey, kLightGrey];
+  String nameValue = "";
+  String dateValue = "30";
+  TextEditingController dateInputController = TextEditingController();
+  final selectedColor = [
+    kLightGrey.withOpacity(0.5),
+    kLightGrey.withOpacity(0.5)
+  ];
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     Widget customTitle(title, subTitle) {
@@ -25,59 +36,71 @@ class _CreateModalState extends State<CreateModal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(title, style: TextStyle(color: kBlack, fontSize: kContentS)),
+              Text(title, style: TextStyle(color: kBlack, fontSize: kSmall)),
               Text(subTitle,
                   style: TextStyle(
                       color: kGrey,
-                      fontSize: kSubText - 5,
+                      fontSize: kTiny,
                       fontFamily: 'NanumSquareB')),
             ]),
       );
     }
 
-    Widget customTextField(hint, align, verticalPadding) {
+    Widget customTextField(hint, align, verticalPadding, onChanged) {
       return TextField(
+        controller: verticalPadding == 8 ? dateInputController : null,
         textAlign: align,
         maxLines: 1,
-        style: TextStyle(fontSize: kContentS - 2, color: kBlack),
+        maxLength: verticalPadding == 8 ? 3 : 20,
+        style: TextStyle(fontSize: kSmall, color: kBlack),
+        keyboardType: verticalPadding == 8 ? TextInputType.number : null,
+        onChanged: onChanged,
+        onTap: verticalPadding == 8
+            ? () {
+                for (int i = 0; i < days.length; i++) {
+                  days[i] = false;
+                }
+              }
+            : null,
         decoration: InputDecoration(
-          isDense: true,
-          hintText: hint,
-          hintStyle: TextStyle(fontSize: kContentS - 2, color: kGrey),
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 10, vertical: verticalPadding),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: kGrey),
-            borderRadius: kBorderRadiusM,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: kGrey),
-            borderRadius: kBorderRadiusM,
-          ),
-        ),
+            isDense: true,
+            hintText: hint,
+            hintStyle: TextStyle(fontSize: kSmall, color: kGrey),
+            counterText: '',
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 10, vertical: verticalPadding),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: kGrey),
+              borderRadius: kBorderRadiusM,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: kGrey),
+              borderRadius: kBorderRadiusM,
+            ),
+            suffixText: verticalPadding == 8 ? '일' : null,
+            suffixStyle: TextStyle(fontSize: kSmall, color: kGrey)),
       );
     }
 
     Widget buttonItem(s) {
       return Container(
-          width: width * 0.8 / 3 - 13.5,
-          height: 32,
+          width: (width - width * 0.18 - 44) / 3,
+          height: 30,
           alignment: Alignment.center,
-          child: Text(s, style: TextStyle(fontSize: kContentS - 2)));
+          child: Text(s, style: TextStyle(fontSize: kSmall)));
     }
 
     return Stack(
       children: [
         Container(
             width: width,
-            height: 545,
             margin: EdgeInsets.only(
                 left: width * 0.09,
                 right: width * 0.09,
-                top: 34,
+                top: 30,
                 bottom: 30 + keyboardHeight),
             padding:
-                const EdgeInsets.only(top: 25, bottom: 10, left: 22, right: 22),
+                const EdgeInsets.only(top: 35, bottom: 10, left: 20, right: 20),
             decoration: BoxDecoration(
               color: kWhite,
               borderRadius: kBorderRadiusXL,
@@ -91,38 +114,38 @@ class _CreateModalState extends State<CreateModal> {
               ],
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // 모달 설명
-                SizedBox(
-                    // color: Colors.amber[100],
-                    height: 76,
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Row(
                       children: [
                         Text('새로운 ',
-                            style:
-                                TextStyle(color: kBlack, fontSize: kTitle + 2)),
+                            style: TextStyle(color: kBlack, fontSize: kLarge)),
                         Text('챌린지 ',
-                            style:
-                                TextStyle(color: kPoint, fontSize: kTitle + 2)),
+                            style: TextStyle(color: kPoint, fontSize: kLarge)),
                         Text('만들기!',
-                            style:
-                                TextStyle(color: kBlack, fontSize: kTitle + 2)),
+                            style: TextStyle(color: kBlack, fontSize: kLarge)),
                       ],
                     )),
                 // 챌린지 이름 입력
-                SizedBox(
-                    // color: Colors.blue[100],
-                    height: 95,
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
                         customTitle('이름', '챌린지의 이름 입력'),
-                        customTextField('이름을 입력하세요', TextAlign.left, 10.0),
+                        customTextField('이름을 입력하세요', TextAlign.left, 10.0, (v) {
+                          setState(() {
+                            nameValue = v;
+                          });
+                        }),
                       ],
                     )),
                 // 챌린지 기간 입력
-                SizedBox(
-                    // color: Colors.red[100],
-                    height: 125,
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
                         customTitle('기간', '챌린지를 수행할 기간 선택'),
@@ -135,9 +158,18 @@ class _CreateModalState extends State<CreateModal> {
                                 for (int i = 0; i < days.length; i++) {
                                   if (i == index) {
                                     days[i] = true;
+                                    dateInputController.clear();
                                   } else {
                                     days[i] = false;
+                                    dateInputController.clear();
                                   }
+                                }
+                                if (index == 0) {
+                                  dateValue = '30';
+                                } else if (index == 1) {
+                                  dateValue = '100';
+                                } else if (index == 2) {
+                                  dateValue = '365';
                                 }
                               });
                             },
@@ -158,22 +190,25 @@ class _CreateModalState extends State<CreateModal> {
                           ),
                         ),
                         customTextField(
-                            '자유롭게 입력 (1~365)', TextAlign.center, 8.0),
+                            '자유롭게 입력 (1~365)', TextAlign.center, 8.0, (v) {
+                          setState(() {
+                            dateValue = dateInputController.text;
+                          });
+                        }),
                       ],
                     )),
                 // 챌린지 색상 선택
-                SizedBox(
-                    // color: Colors.green[100],
-                    height: 150,
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
                         customTitle('색상', '챌린지의 색상 선택'),
                         Row(
                           children: [
                             Container(
-                              width: 100,
-                              height: 100,
-                              margin: const EdgeInsets.all(5),
+                              width: width * 0.25,
+                              height: width * 0.25,
+                              margin: const EdgeInsets.symmetric(horizontal: 2),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: LinearGradient(
@@ -187,16 +222,15 @@ class _CreateModalState extends State<CreateModal> {
                             Expanded(
                               flex: 1,
                               child: Container(
-                                height: 100,
+                                height: width * 0.25,
                                 margin: const EdgeInsets.only(left: 5),
-                                // color: Colors.amber,
                                 child: GridView.builder(
                                     scrollDirection: Axis.horizontal,
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3,
-                                      mainAxisSpacing: 5.0,
-                                      crossAxisSpacing: 5.0,
+                                      mainAxisSpacing: 4.0,
+                                      crossAxisSpacing: 4.0,
                                       childAspectRatio: 1.0,
                                     ),
                                     itemCount: colors.length,
@@ -242,7 +276,7 @@ class _CreateModalState extends State<CreateModal> {
                                                     child: Icon(
                                                       Icons.check_rounded,
                                                       color: kBlack,
-                                                      size: 24,
+                                                      size: kIcon,
                                                     ),
                                                   )
                                                 : Container()
@@ -258,25 +292,48 @@ class _CreateModalState extends State<CreateModal> {
                     )),
                 // 만들기 버튼
                 Container(
-                    width: width,
-                    // color: Colors.purple[100],
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     alignment: Alignment.center,
-                    height: 62,
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          String _id =
+                              DateTime.now().microsecondsSinceEpoch.toString();
+                          Item _item = Item(
+                              id: _id,
+                              days: int.parse(dateValue),
+                              title: nameValue,
+                              startDate: DateTime.now(),
+                              colors: selectedColor,
+                              contents: [3] +
+                                  List<int>.filled(int.parse(dateValue) - 1, 0),
+                              isDone: '');
+                          items[_id] = _item;
+                          // 최신순으로 정렬해서 해야하나...?
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ChallengeScreen(id: _id)));
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return customDialog(context, 'NEW',
+                                    '새로운 챌린지가 생성되었습니다! ✨', '확인', null);
+                              });
+                        },
                         style: TextButton.styleFrom(
                             primary: kBlack,
                             backgroundColor: kPoint,
                             elevation: 0,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
+                                horizontal: 15, vertical: 8),
+                            minimumSize: const Size(0, 0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: kBorderRadiusXL)),
-                        child: Text(
-                          '만들기',
-                          style:
-                              TextStyle(color: kWhite, fontSize: kContentM - 1),
-                        )))
+                        child: Text('만들기',
+                            style:
+                                TextStyle(color: kWhite, fontSize: kSmall)))),
               ],
             )),
         Align(

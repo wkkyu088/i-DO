@@ -23,12 +23,11 @@ class _PreviousListScreenState extends State<PreviousListScreen> {
   bool isEmptyPrevious = true;
 
   void setEmptyPrevious() {
-    for (int i = 0; i < items.length; i++) {
-      if (DateTime.now().difference(items[i].endDate).inDays >= 0) {
+    items.forEach((key, value) {
+      if (DateTime.now().difference(value.endDate).inDays >= 0) {
         isEmptyPrevious = false;
-        break;
       }
-    }
+    });
   }
 
   @override
@@ -49,7 +48,7 @@ class _PreviousListScreenState extends State<PreviousListScreen> {
           duration: duration,
           opacity: _showFab ? 1 : 0,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 10),
             child: floatingButton(context, 'open'),
           ),
         ),
@@ -75,16 +74,20 @@ class _PreviousListScreenState extends State<PreviousListScreen> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: items.length,
                     itemBuilder: (context, i) {
-                      if (DateTime.now().difference(items[i].endDate).inDays >=
+                      String key = items.keys.elementAt(i);
+                      if (DateTime.now()
+                              .difference(items[key]!.endDate)
+                              .inDays >=
                           0) {
                         return challengeCard(
                             context,
-                            i,
-                            items[i].days,
-                            items[i].title,
-                            items[i].startDate,
-                            items[i].endDate,
-                            items[i].isDone);
+                            items[key]!.id,
+                            items[key]!.colors,
+                            items[key]!.days,
+                            items[key]!.title,
+                            items[key]!.startDate,
+                            items[key]!.endDate,
+                            items[key]!.isDone);
                       }
                       return Container();
                     },

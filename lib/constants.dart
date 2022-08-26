@@ -14,14 +14,19 @@ Color kBtn2 = const Color(0xFFCCDCFD);
 
 Color kSuccess = const Color(0xFF72C486);
 Color kFailure = const Color(0xFFF46A6A);
+Color kDelete = const Color(0xFFDA0000);
 
 // FontSize
-double kSplash = 60;
-double kAppBar = 28;
-double kTitle = 24;
-double kContentM = 22;
-double kContentS = 20;
-double kSubText = 18;
+double kSplash = 54;
+double kBig = 24;
+double kXLarge = 22;
+double kLarge = 20;
+double kMedium = 18;
+double kSmall = 16;
+double kXSmall = 14;
+double kTiny = 12;
+
+double kIcon = 22;
 
 // BorderRdius
 BorderRadius kBorderRadiusXL = BorderRadius.circular(30.0);

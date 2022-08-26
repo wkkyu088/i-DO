@@ -13,30 +13,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            fontFamily: 'BMJUA',
-            colorScheme: ColorScheme(
-                brightness: Brightness.light,
-                primary: kPoint,
-                onPrimary: kPoint,
-                secondary: kGrey,
-                onSecondary: kGrey,
-                error: kPoint,
-                onError: kPoint,
-                background: kWhite,
-                onBackground: kWhite,
-                surface: kLightGrey,
-                onSurface: kLightGrey),
-            textSelectionTheme: TextSelectionThemeData(
-                cursorColor: kPoint,
-                selectionHandleColor: kPoint,
-                selectionColor: kGrey.withOpacity(0.7)),
-            appBarTheme: const AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle.dark,
-            )),
-        // home: const SplashScreen(),
-        home: const MainPage());
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          child: child!,
+        );
+      },
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          fontFamily: 'BMJUA',
+          colorScheme: ColorScheme(
+              brightness: Brightness.light,
+              primary: kPoint,
+              onPrimary: kPoint,
+              secondary: kGrey,
+              onSecondary: kGrey,
+              error: kPoint,
+              onError: kPoint,
+              background: kWhite,
+              onBackground: kWhite,
+              surface: kLightGrey,
+              onSurface: kLightGrey),
+          textSelectionTheme: TextSelectionThemeData(
+              cursorColor: kPoint,
+              selectionHandleColor: kPoint,
+              selectionColor: kPoint.withOpacity(0.5)),
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
+          )),
+      // home: const SplashScreen(),
+      home: const MainPage(),
+    );
   }
 }
 

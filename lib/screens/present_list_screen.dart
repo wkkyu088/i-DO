@@ -23,12 +23,11 @@ class _PresentListScreenState extends State<PresentListScreen> {
   bool isEmptyPresent = true;
 
   void setEmptyPresent() {
-    for (int i = 0; i < items.length; i++) {
-      if (items[i].endDate.difference(DateTime.now()).inDays >= 0) {
+    items.forEach((key, value) {
+      if (value.endDate.difference(DateTime.now()).inDays >= 0) {
         isEmptyPresent = false;
-        break;
       }
-    }
+    });
   }
 
   @override
@@ -49,7 +48,7 @@ class _PresentListScreenState extends State<PresentListScreen> {
           duration: duration,
           opacity: _showFab ? 1 : 0,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 10),
             child: floatingButton(context, 'open'),
           ),
         ),
@@ -75,16 +74,21 @@ class _PresentListScreenState extends State<PresentListScreen> {
                         parent: AlwaysScrollableScrollPhysics()),
                     itemCount: items.length,
                     itemBuilder: (context, i) {
-                      if (items[i].endDate.difference(DateTime.now()).inDays >=
+                      String key = items.keys.elementAt(i);
+                      if (items[key]!
+                              .endDate
+                              .difference(DateTime.now())
+                              .inDays >=
                           0) {
                         return challengeCard(
                             context,
-                            i,
-                            items[i].days,
-                            items[i].title,
-                            items[i].startDate,
-                            items[i].endDate,
-                            items[i].isDone);
+                            items[key]!.id,
+                            items[key]!.colors,
+                            items[key]!.days,
+                            items[key]!.title,
+                            items[key]!.startDate,
+                            items[key]!.endDate,
+                            items[key]!.isDone);
                       }
                       return Container();
                     },

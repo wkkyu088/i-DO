@@ -20,17 +20,18 @@ class _DrawerTabState extends State<DrawerTab> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
 
     Widget customListTile(title, leading, page) {
       return ListTile(
         title: Text(
           title,
-          style: TextStyle(fontSize: kContentM),
+          style: TextStyle(fontSize: kLarge),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         horizontalTitleGap: 0,
-        minLeadingWidth: 25,
-        leading: Text(leading, style: TextStyle(fontSize: kContentS)),
+        minLeadingWidth: 27,
+        leading: Text(leading, style: TextStyle(fontSize: kMedium)),
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => page));
@@ -70,6 +71,7 @@ class _DrawerTabState extends State<DrawerTab> {
                     icon: Icon(
                       Icons.settings_rounded,
                       color: kBlack,
+                      size: kIcon,
                     ),
                     padding: const EdgeInsets.all(5),
                     constraints: const BoxConstraints(),
@@ -80,17 +82,17 @@ class _DrawerTabState extends State<DrawerTab> {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                          horizontal: 8, vertical: 6),
                       child: Text(
                         '$user ,',
-                        style: TextStyle(fontSize: kAppBar + 6, color: kPoint),
+                        style: TextStyle(fontSize: kBig + 4, color: kPoint),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         '나도할수있다 😎',
-                        style: TextStyle(fontSize: kAppBar + 2, color: kBlack),
+                        style: TextStyle(fontSize: kBig, color: kBlack),
                       ),
                     ),
                   ],

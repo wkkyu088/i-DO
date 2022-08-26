@@ -5,8 +5,8 @@ import '../constants.dart';
 
 Widget floatingButton(context, mode) {
   return SizedBox(
-    width: 65,
-    height: 65,
+    width: MediaQuery.of(context).size.width * 0.15,
+    height: MediaQuery.of(context).size.width * 0.15,
     child: FittedBox(
       child: FloatingActionButton(
         onPressed: () {
@@ -35,8 +35,8 @@ Widget floatingButton(context, mode) {
         highlightElevation: 0,
         shape: RoundedRectangleBorder(borderRadius: kBorderRadiusL),
         child: Container(
-          width: 65,
-          height: 65,
+          width: MediaQuery.of(context).size.width * 0.16,
+          height: MediaQuery.of(context).size.width * 0.16,
           decoration: BoxDecoration(
               borderRadius: kBorderRadiusL,
               gradient: LinearGradient(
@@ -44,8 +44,8 @@ Widget floatingButton(context, mode) {
                   end: Alignment.topRight,
                   colors: [kBtn1, kBtn2])),
           child: mode == 'open'
-              ? Icon(Icons.add_rounded, color: kWhite, size: 48)
-              : Icon(Icons.close_rounded, color: kWhite, size: 45),
+              ? Icon(Icons.add_rounded, color: kWhite, size: 44)
+              : Icon(Icons.close_rounded, color: kWhite, size: 42),
         ),
       ),
     ),
