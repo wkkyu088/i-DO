@@ -8,7 +8,7 @@ import '../models/test.dart';
 import '../constants.dart';
 
 Widget challengeCard(
-    context, id, colors, days, title, startDate, endDate, isDone) {
+    context, id, colors, days, title, startDate, endDate, isDone, onPressed) {
   final double width = MediaQuery.of(context).size.width;
 
   Widget badge(mode) {
@@ -25,8 +25,9 @@ Widget challengeCard(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   stops: const [0.5, 0.5],
-                  colors:
-                      mode == '성공' ? [kSuccess, kWhite] : [kFailure, kWhite])),
+                  colors: mode == '성공'
+                      ? [kSuccess.withOpacity(0.9), kWhite]
+                      : [kFailure.withOpacity(0.9), kWhite])),
           child: Center(
             child: Transform.rotate(
               angle: 45 * math.pi / 180,
@@ -48,10 +49,7 @@ Widget challengeCard(
     child: GestureDetector(
       onLongPress: () {},
       child: TextButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ChallengeScreen(id: id)));
-        },
+        onPressed: onPressed,
         style: TextButton.styleFrom(
           primary: kGrey,
           padding: EdgeInsets.zero,

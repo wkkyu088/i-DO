@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.dark,
           )),
-      // home: const SplashScreen(),
-      home: const MainPage(),
+      home: const SplashScreen(),
+      // home: const MainPage(),
     );
   }
 }

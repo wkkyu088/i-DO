@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:ido/screens/challenge_screen.dart';
 
 import '../widgets/custom_appbar.dart';
 import '../widgets/drawer_tab.dart';
@@ -84,7 +85,16 @@ class _SuccessListScreenState extends State<SuccessListScreen> {
                             items[key]!.title,
                             items[key]!.startDate,
                             items[key]!.endDate,
-                            items[key]!.isDone);
+                            items[key]!.isDone, () {
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ChallengeScreen(id: items[key]!.id)))
+                              .then((value) {
+                            setState(() {});
+                          });
+                        });
                       }
                       return Container();
                     },

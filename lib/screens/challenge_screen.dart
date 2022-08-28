@@ -3,8 +3,6 @@ import 'package:ido/widgets/custom_dialog.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
-import '../widgets/custom_appbar.dart';
-import 'package:ido/models/item.dart';
 import 'package:ido/models/test.dart';
 import '../constants.dart';
 
@@ -248,116 +246,140 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   itemBuilder: (BuildContext context, int i) {
                     return items[widget.id]!.contents[i] == 3 ||
                             items[widget.id]!.contents[i] == 4
-                        ? Container(
+                        ? Tooltip(
+                            message: DateFormat('yy.MM.dd').format(
+                                items[widget.id]!
+                                    .startDate
+                                    .add(Duration(days: i))),
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: items[widget.id]!.contents[i] == 4
-                                    ? LinearGradient(
-                                        begin: Alignment.bottomLeft,
-                                        end: Alignment.topRight,
-                                        colors: [
-                                            items[widget.id]!.colors[0],
-                                            items[widget.id]!.colors[1]
-                                          ])
-                                    : null),
-                            child: TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (items[widget.id]!.contents[i] == 3) {
-                                    items[widget.id]!.contents[i] = 4;
-                                    if (i == items[widget.id]!.days - 1) {
-                                      items[widget.id]!.isDone == '성공'
-                                          ? showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return customDialog(
-                                                    context,
-                                                    '챌린지 성공',
-                                                    '성공을 축하합니다! 🥳',
-                                                    '확인',
-                                                    null);
-                                              })
-                                          : showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return customDialog(
-                                                    context,
-                                                    '챌린지 실패',
-                                                    '괜찮아요, 그럴 수 있죠 😅',
-                                                    '확인',
-                                                    null);
-                                              });
+                              borderRadius: kBorderRadiusL,
+                              color: kBlack.withOpacity(0.6),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: items[widget.id]!.contents[i] == 4
+                                      ? LinearGradient(
+                                          begin: Alignment.bottomLeft,
+                                          end: Alignment.topRight,
+                                          colors: [
+                                              items[widget.id]!.colors[0],
+                                              items[widget.id]!.colors[1]
+                                            ])
+                                      : null),
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (items[widget.id]!.contents[i] == 3) {
+                                      items[widget.id]!.contents[i] = 4;
+                                      if (i == items[widget.id]!.days - 1) {
+                                        items[widget.id]!.isDone == '성공'
+                                            ? showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return customDialog(
+                                                      context,
+                                                      '챌린지 성공',
+                                                      '성공을 축하합니다! 🥳',
+                                                      '확인',
+                                                      null);
+                                                })
+                                            : showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return customDialog(
+                                                      context,
+                                                      '챌린지 실패',
+                                                      '괜찮아요, 그럴 수 있죠 😅',
+                                                      '확인',
+                                                      null);
+                                                });
+                                      } else {
+                                        messages();
+                                      }
                                     } else {
-                                      messages();
+                                      items[widget.id]!.contents[i] = 3;
                                     }
-                                  } else {
-                                    items[widget.id]!.contents[i] = 3;
-                                  }
-                                });
-                              },
-                              style: TextButton.styleFrom(
-                                  primary: kGrey,
-                                  backgroundColor:
-                                      items[widget.id]!.contents[i] == 4
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                    primary: kGrey,
+                                    backgroundColor:
+                                        items[widget.id]!.contents[i] == 4
+                                            ? Colors.transparent
+                                            : kWhite,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    side: items[widget.id]!.contents[i] == 4
+                                        ? null
+                                        : BorderSide(
+                                            color:
+                                                items[widget.id]!.colors[0])),
+                                child: Text(
+                                  (i + 1).toString(),
+                                  style: TextStyle(
+                                      color: items[widget.id]!.contents[i] == 4
                                           ? Colors.transparent
-                                          : kWhite,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50)),
-                                  side: items[widget.id]!.contents[i] == 4
-                                      ? null
-                                      : BorderSide(
-                                          color: items[widget.id]!.colors[0])),
-                              child: Text(
-                                (i + 1).toString(),
-                                style: TextStyle(
-                                    color: items[widget.id]!.contents[i] == 4
-                                        ? Colors.transparent
-                                        : items[widget.id]!.colors[0],
-                                    fontSize: kSmall + 1),
+                                          : items[widget.id]!.colors[0],
+                                      fontSize: kSmall + 1),
+                                ),
                               ),
                             ),
                           )
-                        : Container(
+                        : Tooltip(
+                            message: DateFormat('yy.MM.dd').format(
+                                items[widget.id]!
+                                    .startDate
+                                    .add(Duration(days: i))),
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: items[widget.id]!.contents[i] == 0
-                                    ? kLightGrey.withOpacity(0.5)
-                                    : kWhite,
-                                gradient: items[widget.id]!.contents[i] == 1
-                                    ? LinearGradient(
-                                        begin: Alignment.bottomLeft,
-                                        end: Alignment.topRight,
-                                        colors: [
-                                            items[widget.id]!.colors[0],
-                                            items[widget.id]!.colors[1]
-                                          ])
-                                    : items[widget.id]!.contents[i] == 2
-                                        ? LinearGradient(
-                                            begin: Alignment.bottomLeft,
-                                            end: Alignment.topRight,
-                                            colors: [kGrey, kLightGrey])
-                                        : null,
-                                border: items[widget.id]!.contents[i] == 3
-                                    ? Border.all(
-                                        color: items[widget.id]!.colors[0],
-                                        width: 1)
-                                    : null),
-                            child: Center(
-                              child: Text(
-                                (i + 1).toString(),
-                                style: TextStyle(
-                                    color: items[widget.id]!.contents[i] == 1
-                                        ? Colors.transparent
-                                        : items[widget.id]!.contents[i] == 2
-                                            ? kWhite
-                                            : i == items[widget.id]!.days - 1
-                                                ? items[widget.id]!.colors[0]
-                                                : items[widget.id]!
-                                                            .contents[i] ==
-                                                        0
-                                                    ? kGrey
-                                                    : null,
-                                    fontSize: kSmall + 1),
+                              borderRadius: kBorderRadiusL,
+                              color: kBlack.withOpacity(0.6),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: items[widget.id]!.contents[i] == 0
+                                      ? kLightGrey.withOpacity(0.5)
+                                      : kWhite,
+                                  gradient: items[widget.id]!.contents[i] == 1
+                                      ? LinearGradient(
+                                          begin: Alignment.bottomLeft,
+                                          end: Alignment.topRight,
+                                          colors: [
+                                              items[widget.id]!.colors[0],
+                                              items[widget.id]!.colors[1]
+                                            ])
+                                      : items[widget.id]!.contents[i] == 2
+                                          ? LinearGradient(
+                                              begin: Alignment.bottomLeft,
+                                              end: Alignment.topRight,
+                                              colors: [kGrey, kLightGrey])
+                                          : null,
+                                  border: items[widget.id]!.contents[i] == 3
+                                      ? Border.all(
+                                          color: items[widget.id]!.colors[0],
+                                          width: 1)
+                                      : null),
+                              child: Center(
+                                child: Text(
+                                  (i + 1).toString(),
+                                  style: TextStyle(
+                                      color: items[widget.id]!.contents[i] == 1
+                                          ? Colors.transparent
+                                          : items[widget.id]!.contents[i] == 2
+                                              ? kWhite
+                                              : i == items[widget.id]!.days - 1
+                                                  ? items[widget.id]!.colors[0]
+                                                  : items[widget.id]!
+                                                              .contents[i] ==
+                                                          0
+                                                      ? kGrey
+                                                      : null,
+                                      fontSize: kSmall + 1),
+                                ),
                               ),
                             ),
                           );

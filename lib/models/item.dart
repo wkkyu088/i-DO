@@ -5,7 +5,7 @@ class Item {
   int days = 0;
   String title = '';
   DateTime startDate = DateTime.now();
-  DateTime get endDate => startDate.add(Duration(days: days));
+  DateTime get endDate => startDate.add(Duration(days: days - 1));
   List<Color> colors = [const Color(0xFFE7E6E6), const Color(0xFFE7E6E6)];
   List<int> contents = [];
   String isDone = '';
