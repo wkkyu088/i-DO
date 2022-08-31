@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
-import '../screens/challenge_screen.dart';
-import '../models/item.dart';
-import '../models/test.dart';
 import '../constants.dart';
 
 Widget challengeCard(

@@ -70,34 +70,37 @@ class _FailureListScreenState extends State<FailureListScreen> {
                     });
                     return true;
                   },
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    itemCount: items.length,
-                    itemBuilder: (context, i) {
-                      String key = items.keys.elementAt(i);
-                      if (items[key]!.isDone == '실패') {
-                        return challengeCard(
-                            context,
-                            items[key]!.id,
-                            items[key]!.colors,
-                            items[key]!.days,
-                            items[key]!.title,
-                            items[key]!.startDate,
-                            items[key]!.endDate,
-                            items[key]!.isDone, () {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChallengeScreen(id: items[key]!.id)))
-                              .then((value) {
-                            setState(() {});
-                          });
-                        });
-                      }
-                      return Container();
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      setState(() {});
+                      return Future<void>.value();
                     },
+                    child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, i) {
+                        String key = items.keys.elementAt(i);
+                        if (items[key]!.isDone == '실패') {
+                          return challengeCard(
+                              context,
+                              items[key]!.id,
+                              items[key]!.colors,
+                              items[key]!.days,
+                              items[key]!.title,
+                              items[key]!.startDate,
+                              items[key]!.endDate,
+                              items[key]!.isDone, () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChallengeScreen(
+                                        id: items[key]!.id))).then((value) {
+                              setState(() {});
+                            });
+                          });
+                        }
+                        return Container();
+                      },
+                    ),
                   ),
                 ),
     );

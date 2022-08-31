@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ido/models/utils.dart';
 import 'package:ido/widgets/custom_dialog.dart';
 import 'package:ido/widgets/floating_button.dart';
-import 'package:intl/intl.dart';
 import '../screens/challenge_screen.dart';
 
 import '../constants.dart';
-import '../models/item.dart';
-import '../models/test.dart';
 
 class CreateModal extends StatefulWidget {
   const CreateModal({Key? key}) : super(key: key);
@@ -66,7 +62,8 @@ class _CreateModalState extends State<CreateModal> {
             isDense: true,
             hintText: hint,
             hintStyle: TextStyle(fontSize: kSmall, color: kGrey),
-            counterText: '',
+            counterText: verticalPadding == 8 ? '' : null,
+            counterStyle: TextStyle(fontSize: kTiny - 1, color: kGrey),
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 10, vertical: verticalPadding),
             focusedBorder: OutlineInputBorder(
@@ -295,11 +292,11 @@ class _CreateModalState extends State<CreateModal> {
                     alignment: Alignment.center,
                     child: TextButton(
                         onPressed: () {
-                          String _id =
+                          String id =
                               DateTime.now().microsecondsSinceEpoch.toString();
 
                           createItem(
-                            _id,
+                            id,
                             dateValue,
                             nameValue,
                             selectedColor,
@@ -314,13 +311,20 @@ class _CreateModalState extends State<CreateModal> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ChallengeScreen(id: _id)));
+                                      ChallengeScreen(id: id)));
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return customDialog(context, 'NEW',
                                     '새로운 챌린지가 생성되었습니다! ✨', '확인', null);
                               });
+
+                          for (int i = 0; i < checked.length; i++) {
+                            if (checked[i] == true) checked[i] = false;
+                          }
+                          if (days[0] == false) days[0] = true;
+                          if (days[1] == true) days[1] = false;
+                          if (days[2] == true) days[2] = false;
                         },
                         style: TextButton.styleFrom(
                             primary: kBlack,

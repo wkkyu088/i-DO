@@ -61,21 +61,22 @@ class _DrawerTabState extends State<DrawerTab> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 18),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SettingScreen()));
-                    },
-                    icon: Icon(
-                      Icons.settings_rounded,
-                      color: kBlack,
-                      size: kIcon,
-                    ),
-                    padding: const EdgeInsets.all(5),
-                    constraints: const BoxConstraints(),
-                  ),
+                  padding: const EdgeInsets.all(15),
+                  // child: IconButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => const SettingScreen()));
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.settings_rounded,
+                  //     color: kBlack,
+                  //     size: kIcon,
+                  //   ),
+                  //   padding: const EdgeInsets.all(5),
+                  //   constraints: const BoxConstraints(),
+                  // ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

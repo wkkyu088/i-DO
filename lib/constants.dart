@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String user = '규진';
+String user = 'iDO';
 
 // Colors
 Color kWhite = const Color(0xFFFAFAFA);

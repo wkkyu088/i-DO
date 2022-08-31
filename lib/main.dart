@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ido/screens/signUp_screen.dart';
 import 'package:ido/screens/splash_screen.dart';
 
 import './screens/main_list_screen.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           )),
       // home: const SplashScreen(),
       home: const MainPage(),
+      // home: const SignUpScreen(),
     );
   }
 }
