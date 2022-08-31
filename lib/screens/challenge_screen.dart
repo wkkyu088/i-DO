@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:ido/widgets/custom_dialog.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,7 @@ import 'dart:math' as math;
 
 import 'package:ido/models/test.dart';
 import '../constants.dart';
+import '../models/utils.dart';
 
 class ChallengeScreen extends StatefulWidget {
   String id;
@@ -27,6 +30,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final id = widget.id;
     // 0: default, 1: done, 2: undone, 3: today, 4: todayDone
     final ScrollController _controller = ScrollController();
     final double width = MediaQuery.of(context).size.width;
@@ -116,278 +120,279 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     // });
 
     return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-          toolbarHeight: height * 0.09,
-          iconTheme: IconThemeData(color: kBlack),
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: kWhite,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: kBlack,
-                size: kIcon + 2,
-              )),
-          actions: [
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                primary: kGrey,
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(50, 0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                '수정',
-                style: TextStyle(color: kBlack, fontSize: kXSmall),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return customDialog(context, '잠시만요!', '정말 삭제하시나요?', '삭제',
-                          () {
-                        items.remove(widget.id);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      });
-                    });
-              },
-              style: TextButton.styleFrom(
-                primary: kGrey,
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(50, 0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                '삭제',
-                style: TextStyle(color: kDelete, fontSize: kXSmall),
-              ),
-            ),
-          ]),
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              SizedBox(
-                width: width,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 9),
-                        margin: const EdgeInsets.only(bottom: 2),
-                        decoration: BoxDecoration(
-                            borderRadius: kBorderRadiusL,
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                colors: [
-                                  items[widget.id]!.colors[0],
-                                  items[widget.id]!.colors[1]
-                                ])),
-                        child: Text(
-                          '${items[widget.id]!.days}일',
-                          style:
-                              TextStyle(color: kWhite, fontSize: kXSmall + 1),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          items[widget.id]!.title,
-                          style: TextStyle(
-                              color: items[widget.id]!.colors[0],
-                              fontSize: kBig + 1),
-                        ),
-                      ),
-                      Text(
-                        '${DateFormat('yy.MM.dd').format(items[widget.id]!.startDate)} ~ ${DateFormat('yy.MM.dd').format(items[widget.id]!.endDate)}',
-                        style: TextStyle(color: kGrey, fontSize: kXSmall + 1),
-                      ),
-                    ],
-                  ),
+        key: scaffoldKey,
+        appBar: AppBar(
+            toolbarHeight: height * 0.09,
+            iconTheme: IconThemeData(color: kBlack),
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: kWhite,
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: kBlack,
+                  size: kIcon + 2,
+                )),
+            actions: [
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  primary: kGrey,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  '수정',
+                  style: TextStyle(color: kBlack, fontSize: kXSmall),
                 ),
               ),
-              items[widget.id]!.isDone == '성공'
-                  ? badge('성공')
-                  : items[widget.id]!.isDone == '실패'
-                      ? badge('실패')
-                      : Container()
-            ],
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: width * 0.12,
-                  right: width * 0.12,
-                  top: width * 0.08,
-                  bottom: width * 0.05),
-              child: GridView.builder(
-                  controller: _controller,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5,
-                    mainAxisSpacing: 9.0,
-                    crossAxisSpacing: 9.0,
-                    childAspectRatio: 1.0,
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return customDialog(
+                            context, '잠시만요!', '정말 삭제하시나요?', '삭제', () {
+                          deleteItem(id);
+                          items.remove(widget.id);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        });
+                      });
+                },
+                style: TextButton.styleFrom(
+                  primary: kGrey,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  '삭제',
+                  style: TextStyle(color: kDelete, fontSize: kXSmall),
+                ),
+              ),
+            ]),
+        body: Column(
+          children: [
+            Stack(
+              children: [
+                SizedBox(
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 9),
+                          margin: const EdgeInsets.only(bottom: 2),
+                          decoration: BoxDecoration(
+                              borderRadius: kBorderRadiusL,
+                              gradient: LinearGradient(
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                  colors: [
+                                    colorChart[items[id]!.colors][0],
+                                    colorChart[items[id]!.colors][1]
+                                  ])),
+                          child: Text(
+                            '${items[id]!.days}일',
+                            style:
+                                TextStyle(color: kWhite, fontSize: kXSmall + 1),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            items[id]!.title,
+                            style: TextStyle(
+                                color: colorChart[items[id]!.colors][0],
+                                fontSize: kBig + 1),
+                          ),
+                        ),
+                        Text(
+                          '${DateFormat('yy.MM.dd').format(items[id]!.startDate)} ~ ${DateFormat('yy.MM.dd').format(items[id]!.endDate)}',
+                          style: TextStyle(color: kGrey, fontSize: kXSmall + 1),
+                        ),
+                      ],
+                    ),
                   ),
-                  itemCount: items[widget.id]!.days,
-                  itemBuilder: (BuildContext context, int i) {
-                    return items[widget.id]!.contents[i] == 3 ||
-                            items[widget.id]!.contents[i] == 4
-                        ? Tooltip(
-                            message: DateFormat('yy.MM.dd').format(
-                                items[widget.id]!
-                                    .startDate
-                                    .add(Duration(days: i))),
-                            decoration: BoxDecoration(
-                              borderRadius: kBorderRadiusL,
-                              color: kBlack.withOpacity(0.6),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: items[widget.id]!.contents[i] == 4
-                                      ? LinearGradient(
-                                          begin: Alignment.bottomLeft,
-                                          end: Alignment.topRight,
-                                          colors: [
-                                              items[widget.id]!.colors[0],
-                                              items[widget.id]!.colors[1]
-                                            ])
-                                      : null),
-                              child: TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (items[widget.id]!.contents[i] == 3) {
-                                      items[widget.id]!.contents[i] = 4;
-                                      if (i == items[widget.id]!.days - 1) {
-                                        items[widget.id]!.isDone == '성공'
-                                            ? showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return customDialog(
-                                                      context,
-                                                      '챌린지 성공',
-                                                      '성공을 축하합니다! 🥳',
-                                                      '확인',
-                                                      null);
-                                                })
-                                            : showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return customDialog(
-                                                      context,
-                                                      '챌린지 실패',
-                                                      '괜찮아요, 그럴 수 있죠 😅',
-                                                      '확인',
-                                                      null);
-                                                });
-                                      } else {
-                                        messages();
-                                      }
-                                    } else {
-                                      items[widget.id]!.contents[i] = 3;
-                                    }
-                                  });
-                                },
-                                style: TextButton.styleFrom(
-                                    primary: kGrey,
-                                    backgroundColor:
-                                        items[widget.id]!.contents[i] == 4
-                                            ? Colors.transparent
-                                            : kWhite,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    side: items[widget.id]!.contents[i] == 4
-                                        ? null
-                                        : BorderSide(
-                                            color:
-                                                items[widget.id]!.colors[0])),
-                                child: Text(
-                                  (i + 1).toString(),
-                                  style: TextStyle(
-                                      color: items[widget.id]!.contents[i] == 4
-                                          ? Colors.transparent
-                                          : items[widget.id]!.colors[0],
-                                      fontSize: kSmall + 1),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Tooltip(
-                            message: DateFormat('yy.MM.dd').format(
-                                items[widget.id]!
-                                    .startDate
-                                    .add(Duration(days: i))),
-                            decoration: BoxDecoration(
-                              borderRadius: kBorderRadiusL,
-                              color: kBlack.withOpacity(0.6),
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: items[widget.id]!.contents[i] == 0
-                                      ? kLightGrey.withOpacity(0.5)
-                                      : kWhite,
-                                  gradient: items[widget.id]!.contents[i] == 1
-                                      ? LinearGradient(
-                                          begin: Alignment.bottomLeft,
-                                          end: Alignment.topRight,
-                                          colors: [
-                                              items[widget.id]!.colors[0],
-                                              items[widget.id]!.colors[1]
-                                            ])
-                                      : items[widget.id]!.contents[i] == 2
-                                          ? LinearGradient(
-                                              begin: Alignment.bottomLeft,
-                                              end: Alignment.topRight,
-                                              colors: [kGrey, kLightGrey])
-                                          : null,
-                                  border: items[widget.id]!.contents[i] == 3
-                                      ? Border.all(
-                                          color: items[widget.id]!.colors[0],
-                                          width: 1)
-                                      : null),
-                              child: Center(
-                                child: Text(
-                                  (i + 1).toString(),
-                                  style: TextStyle(
-                                      color: items[widget.id]!.contents[i] == 1
-                                          ? Colors.transparent
-                                          : items[widget.id]!.contents[i] == 2
-                                              ? kWhite
-                                              : i == items[widget.id]!.days - 1
-                                                  ? items[widget.id]!.colors[0]
-                                                  : items[widget.id]!
-                                                              .contents[i] ==
-                                                          0
-                                                      ? kGrey
-                                                      : null,
-                                      fontSize: kSmall + 1),
-                                ),
-                              ),
-                            ),
-                          );
-                  }),
+                ),
+                items[id]!.isDone == '성공'
+                    ? badge('성공')
+                    : items[id]!.isDone == '실패'
+                        ? badge('실패')
+                        : Container()
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(
+                    left: width * 0.12,
+                    right: width * 0.12,
+                    top: width * 0.08,
+                    bottom: width * 0.05),
+                child: GridView.builder(
+                    controller: _controller,
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,
+                      mainAxisSpacing: 9.0,
+                      crossAxisSpacing: 9.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: items[id]!.days,
+                    itemBuilder: (BuildContext context, int i) {
+                      return items[id]!.contents[i] == 3 ||
+                              items[id]!.contents[i] == 4
+                          ? Tooltip(
+                              message: DateFormat('yy.MM.dd').format(
+                                  items[id]!.startDate.add(Duration(days: i))),
+                              decoration: BoxDecoration(
+                                borderRadius: kBorderRadiusL,
+                                color: kBlack.withOpacity(0.6),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: items[id]!.contents[i] == 4
+                                        ? LinearGradient(
+                                            begin: Alignment.bottomLeft,
+                                            end: Alignment.topRight,
+                                            colors: [
+                                                colorChart[items[id]!.colors]
+                                                    [0],
+                                                colorChart[items[id]!.colors][1]
+                                              ])
+                                        : null),
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (items[id]!.contents[i] == 3) {
+                                        items[id]!.contents[i] = 4;
+                                        if (i == items[id]!.days - 1) {
+                                          items[id]!.isDone == '성공'
+                                              ? showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return customDialog(
+                                                        context,
+                                                        '챌린지 성공',
+                                                        '성공을 축하합니다! 🥳',
+                                                        '확인',
+                                                        null);
+                                                  })
+                                              : showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return customDialog(
+                                                        context,
+                                                        '챌린지 실패',
+                                                        '괜찮아요, 그럴 수 있죠 😅',
+                                                        '확인',
+                                                        null);
+                                                  });
+                                        } else {
+                                          messages();
+                                        }
+                                      } else {
+                                        items[id]!.contents[i] = 3;
+                                      }
+                                    });
+                                  },
+                                  style: TextButton.styleFrom(
+                                      primary: kGrey,
+                                      backgroundColor:
+                                          items[id]!.contents[i] == 4
+                                              ? Colors.transparent
+                                              : kWhite,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      side: items[id]!.contents[i] == 4
+                                          ? null
+                                          : BorderSide(
+                                              color:
+                                                  colorChart[items[id]!.colors]
+                                                      [0])),
+                                  child: Text(
+                                    (i + 1).toString(),
+                                    style: TextStyle(
+                                        color: items[id]!.contents[i] == 4
+                                            ? Colors.transparent
+                                            : colorChart[items[id]!.colors][0],
+                                        fontSize: kSmall + 1),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Tooltip(
+                              message: DateFormat('yy.MM.dd').format(
+                                  items[id]!.startDate.add(Duration(days: i))),
+                              decoration: BoxDecoration(
+                                borderRadius: kBorderRadiusL,
+                                color: kBlack.withOpacity(0.6),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: items[id]!.contents[i] == 0
+                                        ? kLightGrey.withOpacity(0.5)
+                                        : kWhite,
+                                    gradient: items[id]!.contents[i] == 1
+                                        ? LinearGradient(
+                                            begin: Alignment.bottomLeft,
+                                            end: Alignment.topRight,
+                                            colors: [
+                                                colorChart[items[id]!.colors]
+                                                    [0],
+                                                colorChart[items[id]!.colors][1]
+                                              ])
+                                        : items[id]!.contents[i] == 2
+                                            ? LinearGradient(
+                                                begin: Alignment.bottomLeft,
+                                                end: Alignment.topRight,
+                                                colors: [kGrey, kLightGrey])
+                                            : null,
+                                    border: items[id]!.contents[i] == 3
+                                        ? Border.all(
+                                            color: colorChart[items[id]!.colors]
+                                                [0],
+                                            width: 1)
+                                        : null),
+                                child: Center(
+                                  child: Text(
+                                    (i + 1).toString(),
+                                    style: TextStyle(
+                                        color: items[id]!.contents[i] == 1
+                                            ? Colors.transparent
+                                            : items[id]!.contents[i] == 2
+                                                ? kWhite
+                                                : i == items[id]!.days - 1
+                                                    ? colorChart[
+                                                        items[id]!.colors][0]
+                                                    : items[id]!.contents[i] ==
+                                                            0
+                                                        ? kGrey
+                                                        : null,
+                                        fontSize: kSmall + 1),
+                                  ),
+                                ),
+                              ),
+                            );
+                    }),
+              ),
+            ),
+          ],
+        ));
   }
 }

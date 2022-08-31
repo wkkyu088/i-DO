@@ -23,12 +23,12 @@ Widget floatingButton(context, mode) {
                   },
                 )
               : {
-                  Navigator.pop(context),
                   for (int i = 0; i < checked.length; i++)
                     {if (checked[i] == true) checked[i] = false},
                   if (days[0] == false) days[0] = true,
                   if (days[1] == true) days[1] = false,
                   if (days[2] == true) days[2] = false,
+                  Navigator.pop(context),
                 };
         },
         elevation: mode == 'open' ? 6 : 0,

@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ido/models/utils.dart';
 import 'package:ido/widgets/custom_dialog.dart';
 import 'package:ido/widgets/floating_button.dart';
+import 'package:intl/intl.dart';
 import '../screens/challenge_screen.dart';
 
 import '../constants.dart';
@@ -18,10 +21,7 @@ class _CreateModalState extends State<CreateModal> {
   String nameValue = "";
   String dateValue = "30";
   TextEditingController dateInputController = TextEditingController();
-  final selectedColor = [
-    kLightGrey.withOpacity(0.5),
-    kLightGrey.withOpacity(0.5)
-  ];
+  int selectedColor = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +215,8 @@ class _CreateModalState extends State<CreateModal> {
                                       begin: Alignment.bottomLeft,
                                       end: Alignment.topRight,
                                       colors: [
-                                        selectedColor[0],
-                                        selectedColor[1]
+                                        colorChart[selectedColor][0],
+                                        colorChart[selectedColor][1]
                                       ])),
                             ),
                             Expanded(
@@ -233,14 +233,13 @@ class _CreateModalState extends State<CreateModal> {
                                       crossAxisSpacing: 4.0,
                                       childAspectRatio: 1.0,
                                     ),
-                                    itemCount: colors.length,
+                                    itemCount: colorChart.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            selectedColor[0] = colors[index][0];
-                                            selectedColor[1] = colors[index][1];
+                                            selectedColor = index;
                                             for (int i = 0;
                                                 i < checked.length;
                                                 i++) {
@@ -267,8 +266,8 @@ class _CreateModalState extends State<CreateModal> {
                                                           Alignment.bottomLeft,
                                                       end: Alignment.topRight,
                                                       colors: [
-                                                        colors[index][0],
-                                                        colors[index][1]
+                                                        colorChart[index][0],
+                                                        colorChart[index][1]
                                                       ])),
                                             ),
                                             checked[index]
@@ -298,16 +297,17 @@ class _CreateModalState extends State<CreateModal> {
                         onPressed: () {
                           String _id =
                               DateTime.now().microsecondsSinceEpoch.toString();
-                          Item _item = Item(
-                              id: _id,
-                              days: int.parse(dateValue),
-                              title: nameValue,
-                              startDate: DateTime.now(),
-                              colors: selectedColor,
-                              contents: [3] +
-                                  List<int>.filled(int.parse(dateValue) - 1, 0),
-                              isDone: '');
-                          items[_id] = _item;
+
+                          createItem(
+                            _id,
+                            dateValue,
+                            nameValue,
+                            selectedColor,
+                            DateTime.now(),
+                            [3] + List<int>.filled(int.parse(dateValue) - 1, 0),
+                            '',
+                          );
+
                           // 최신순으로 정렬해서 해야하나...?
                           Navigator.pop(context);
                           Navigator.push(

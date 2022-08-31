@@ -61,7 +61,7 @@ Widget challengeCard(
               height: width * 0.8 * 0.49,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: colors[1].withOpacity(0.25),
+                color: colorChart[colors][1].withOpacity(0.25),
                 borderRadius: kBorderRadiusL,
               ),
               child: Column(
@@ -76,7 +76,10 @@ Widget challengeCard(
                         gradient: LinearGradient(
                             begin: Alignment.bottomLeft,
                             end: Alignment.topRight,
-                            colors: [colors[0], colors[1]])),
+                            colors: [
+                              colorChart[colors][0],
+                              colorChart[colors][1]
+                            ])),
                     child: Text(
                       '$days일',
                       style: TextStyle(color: kWhite, fontSize: kXSmall + 1),
@@ -86,7 +89,8 @@ Widget challengeCard(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       title,
-                      style: TextStyle(color: colors[0], fontSize: kBig + 1),
+                      style: TextStyle(
+                          color: colorChart[colors][0], fontSize: kBig + 1),
                     ),
                   ),
                   Text(

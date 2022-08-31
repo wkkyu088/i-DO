@@ -74,7 +74,7 @@ final List<bool> checked = [
   false,
   false,
 ];
-final List colors = [
+final List colorChart = [
   // [const Color(0xFFfcb69f), const Color(0xFFffecd2)],
   // [const Color(0xFFfda085), const Color(0xFFf6d365)],
   // [const Color(0xFFfcb69f), const Color(0xFFffecd2)],
