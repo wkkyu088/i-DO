@@ -103,7 +103,7 @@ final List colorChart = [
   [const Color(0xFFfcb69f), const Color(0xFFffecd2)], // 16
   [const Color(0xFFfda085), const Color(0xFFf6d365)], // 17
   [const Color(0xFFff9a9e), const Color(0xFFfad0c4)], // 18
-  [const Color(0xFFff9a9e), const Color(0xFFfad0c4)], // 19
+  [const Color(0xFFdf9a9e), const Color(0xFFdad0c4)], // 19
   [const Color(0xFFe96443), const Color(0xFF904e95)], // 20
   [const Color(0xFFEC7B97), const Color.fromARGB(255, 255, 203, 216)], // 21
   [const Color(0xFFf5576c), const Color(0xFFFBB7C5)], // 22
@@ -111,8 +111,8 @@ final List colorChart = [
   [const Color(0xFF005aa7), const Color(0xFFfffde4)], // 24
   [const Color(0xFF13547A), const Color(0xFF80d0c7)], // 25
   [const Color(0xFF093637), const Color(0xFF44a08d)], // 26
-  [const Color(0xFF09203f), const Color(0xFF537895)], // 27
-  [const Color(0xFF1f1c18), const Color(0xFF8e0e00)], // 28
+  [const Color(0xFF330867), const Color(0xFF30cfd0)], // 27
+  [const Color(0xFF09203f), const Color(0xFF537895)], // 28
   [const Color(0xFF1e130c), const Color(0xFF9a8478)], // 29
   [const Color(0xFF596164), const Color(0xFF868f96)], // 30
 ];

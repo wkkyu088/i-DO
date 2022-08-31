@@ -87,21 +87,47 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     //   }
     // });
 
+    void isDone(id) {
+      int cnt = 0;
+      for (int i in items[id]!.contents) {
+        if (i == 1 || i == 4) {
+          cnt++;
+        }
+      }
+      if (cnt / items[id]!.days * 100 >= 90) {
+        items[id]!.isDone = '성공';
+        firestore.doc(id).update({'isDone': '성공'});
+      } else {
+        items[id]!.isDone = '실패';
+        firestore.doc(id).update({'isDone': '실패'});
+      }
+    }
+
     void initScreen() {
       setState(() {
-        int target = DateTime.now().difference(items[id]!.startDate).inDays;
-        if (items[id]!.contents[target] != 3 &&
-            items[id]!.contents[target] != 4) {
-          for (int i = 0; i < target; i++) {
-            if (items[id]!.contents[i] == 0 || items[id]!.contents[i] == 3) {
-              items[id]!.contents[i] = 2;
-            } else if (items[id]!.contents[i] == 4) {
-              items[id]!.contents[i] = 1;
+        if (DateTime.now().difference(items[id]!.endDate).inDays <= 0) {
+          int target = DateTime.now().difference(items[id]!.startDate).inDays;
+
+          if (items[id]!.contents[target] != 3 &&
+              items[id]!.contents[target] != 4) {
+            for (int i = 0; i < target; i++) {
+              if (items[id]!.contents[i] == 0 || items[id]!.contents[i] == 3) {
+                items[id]!.contents[i] = 2;
+              } else if (items[id]!.contents[i] == 4) {
+                items[id]!.contents[i] = 1;
+              }
             }
+            items[id]!.contents[target] = 3;
           }
-          items[id]!.contents[target] = 3;
-          firestore.doc(id).update({'contents': items[id]!.contents});
+        } else {
+          if (items[id]!.contents[items[id]!.days - 1] == 3) {
+            items[id]!.contents[items[id]!.days - 1] = 2;
+          } else if (items[id]!.contents[items[id]!.days - 1] == 4) {
+            items[id]!.contents[items[id]!.days - 1] = 1;
+          }
+          isDone(id);
         }
+        firestore.doc(id).update({'contents': items[id]!.contents});
       });
     }
 
@@ -282,24 +308,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                             'contents': items[id]!.contents
                                           });
                                           if (i == items[id]!.days - 1) {
-                                            int cnt = 0;
-                                            for (i in items[id]!.contents) {
-                                              if (i == 1 || i == 4) {
-                                                cnt++;
-                                              }
-                                            }
-                                            if (cnt / items[id]!.days * 100 >=
-                                                90) {
-                                              items[id]!.isDone = '성공';
-                                              firestore
-                                                  .doc(id)
-                                                  .update({'isDone': '성공'});
-                                            } else {
-                                              items[id]!.isDone = '실패';
-                                              firestore
-                                                  .doc(id)
-                                                  .update({'isDone': '실패'});
-                                            }
+                                            isDone(id);
                                             items[id]!.isDone == '성공'
                                                 ? showDialog(
                                                     context: context,

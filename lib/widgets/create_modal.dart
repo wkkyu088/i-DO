@@ -295,12 +295,16 @@ class _CreateModalState extends State<CreateModal> {
                           String id =
                               DateTime.now().microsecondsSinceEpoch.toString();
 
+                          int year = DateTime.now().year;
+                          int month = DateTime.now().month;
+                          int day = DateTime.now().day;
+
                           createItem(
                             id,
                             dateValue,
                             nameValue,
                             selectedColor,
-                            DateTime.now(),
+                            DateTime(year, month, day),
                             [3] + List<int>.filled(int.parse(dateValue) - 1, 0),
                             '',
                           );

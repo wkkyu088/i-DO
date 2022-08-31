@@ -53,6 +53,22 @@ Item getItem(e) {
 
   items[id] = item;
 
+  if (DateTime.now().difference(items[id]!.endDate).inDays > 0) {
+    int cnt = 0;
+    for (int i in items[id]!.contents) {
+      if (i == 1 || i == 4) {
+        cnt++;
+      }
+    }
+    if (cnt / items[id]!.days * 100 >= 90) {
+      items[id]!.isDone = '성공';
+      firestore.doc(id).update({'isDone': '성공'});
+    } else {
+      items[id]!.isDone = '실패';
+      firestore.doc(id).update({'isDone': '실패'});
+    }
+  }
+
   return item;
 }
 

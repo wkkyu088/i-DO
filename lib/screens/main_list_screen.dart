@@ -41,20 +41,20 @@ class _MainListScreenState extends State<MainListScreen> {
     // );
     // createItem(
     //   DateTime.now().microsecondsSinceEpoch.toString(),
-    //   '10',
+    //   '50',
     //   '1일 1커밋, 잔디심기🌱',
     //   3,
-    //   DateTime(2022, 08, 16),
-    //   [1, 1, 1, 1, 1, 1, 1, 1, 2, 3],
+    //   DateTime(2022, 03, 16),
+    //   List<int>.filled(50, 1),
     //   '성공',
     // );
     // createItem(
     //   DateTime.now().microsecondsSinceEpoch.toString(),
-    //   '15',
+    //   '100',
     //   '물 마시기💧',
     //   4,
-    //   DateTime(2022, 08, 02),
-    //   List<int>.filled(14, 2) + [3],
+    //   DateTime(2022, 05, 02),
+    //   List<int>.filled(100, 2),
     //   '실패',
     // );
   }
