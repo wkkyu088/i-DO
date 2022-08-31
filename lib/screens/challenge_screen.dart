@@ -37,7 +37,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     List<String> msgs = [
       '오늘도 실천하셨네요! 정말 대단해요 😍',
       '한걸음 한걸음, 성공을 향해! 💪🏻',
-      '$user님의 성공을 응원합니다!'
+      '유저님의 성공을 응원합니다!'
     ];
 
     Widget badge(mode) {
