@@ -319,8 +319,11 @@ class _CreateModalState extends State<CreateModal> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return customDialog(context, 'NEW',
-                                    '새로운 챌린지가 생성되었습니다! ✨', '확인', null);
+                                return CustomDialog(
+                                  title: 'NEW',
+                                  content: '새로운 챌린지가 생성되었습니다! ✨',
+                                  btn: '확인',
+                                );
                               });
 
                           for (int i = 0; i < checked.length; i++) {

@@ -1,11 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 import '../constants.dart';
+import '../models/utils.dart';
+import 'custom_dialog.dart';
+import 'modify_dialog.dart';
+import 'toast_message.dart';
 
 Widget challengeCard(
-    context, id, colors, days, title, startDate, endDate, isDone, onPressed) {
+    context, id, colors, days, title, startDate, endDate, isDone, onPressed,
+    [key]) {
   final double width = MediaQuery.of(context).size.width;
 
   Widget badge(mode) {
@@ -44,7 +50,68 @@ Widget challengeCard(
     margin: EdgeInsets.only(
         bottom: width * 0.04, left: width * 0.1, right: width * 0.1),
     child: GestureDetector(
-      onLongPress: () {},
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: kBorderRadiusM),
+              insetPadding: EdgeInsets.zero,
+              titlePadding: EdgeInsets.zero,
+              buttonPadding: EdgeInsets.zero,
+              actionsPadding: EdgeInsets.zero,
+              contentPadding: const EdgeInsets.symmetric(vertical: 5),
+              content: Container(
+                alignment: Alignment.center,
+                height: 100,
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return modifyDialog(id: id, isClose: true);
+                            });
+                      },
+                      style: TextButton.styleFrom(primary: kLightGrey),
+                      child: Text('수정',
+                          style: TextStyle(color: kBlack, fontSize: kMedium)),
+                    ),
+                    Container(
+                      height: 1,
+                      color: kLightGrey,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomDialog(
+                                title: '잠시만요!',
+                                content: '정말 삭제하시나요?',
+                                btn: '삭제',
+                                onDelete: () {
+                                  deleteItem(id);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  toastMessages(context, '삭제되었습니다.');
+                                },
+                                isClose: true,
+                              );
+                            });
+                      },
+                      style: TextButton.styleFrom(primary: kLightGrey),
+                      child: Text('삭제',
+                          style: TextStyle(color: kBlack, fontSize: kMedium)),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(

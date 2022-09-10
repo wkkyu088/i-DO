@@ -77,8 +77,11 @@ class _SettingScreenState extends State<SettingScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return customDialog(
-                                  context, '변경', '닉네임을 변경하였습니다.', '확인', null);
+                              return CustomDialog(
+                                title: '변경',
+                                content: '닉네임을 변경하였습니다.',
+                                btn: '확인',
+                              );
                             },
                           );
                         },

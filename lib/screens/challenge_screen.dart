@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import '../models/test.dart';
 import '../models/utils.dart';
 import '../constants.dart';
+import '../widgets/modify_dialog.dart';
 
 class ChallengeScreen extends StatefulWidget {
   String id;
@@ -156,7 +157,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return modifyDialog(context, id);
+                        return modifyDialog(id: id);
                       });
                 },
                 style: TextButton.styleFrom(
@@ -175,13 +176,16 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return customDialog(
-                            context, '잠시만요!', '정말 삭제하시나요?', '삭제', () {
-                          deleteItem(id);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          toastMessages(context, '삭제되었습니다.');
-                        });
+                        return CustomDialog(
+                            title: '잠시만요!',
+                            content: '정말 삭제하시나요?',
+                            btn: '삭제',
+                            onDelete: () {
+                              deleteItem(id);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              toastMessages(context, '삭제되었습니다.');
+                            });
                       });
                 },
                 style: TextButton.styleFrom(
@@ -314,23 +318,23 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
-                                                      return customDialog(
-                                                          context,
-                                                          '챌린지 성공',
-                                                          '성공을 축하합니다! 🥳',
-                                                          '확인',
-                                                          null);
+                                                      return CustomDialog(
+                                                        title: '챌린지 성공',
+                                                        content:
+                                                            '성공을 축하합니다! 🥳',
+                                                        btn: '확인',
+                                                      );
                                                     })
                                                 : showDialog(
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
-                                                      return customDialog(
-                                                          context,
-                                                          '챌린지 실패',
-                                                          '괜찮아요, 그럴 수 있죠 😅',
-                                                          '확인',
-                                                          null);
+                                                      return CustomDialog(
+                                                        title: '챌린지 실패',
+                                                        content:
+                                                            '괜찮아요, 그럴 수 있죠 😅',
+                                                        btn: '확인',
+                                                      );
                                                     });
                                           } else {
                                             toastMessages(

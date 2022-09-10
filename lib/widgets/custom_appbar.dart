@@ -66,8 +66,11 @@ AppBar customAppBar(String icon, String title, scaffoldKey, context) {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return customDialog(
-                          context, '잠시만요!', '정말 삭제하시나요?', '삭제', () {});
+                      return CustomDialog(
+                        title: '잠시만요!',
+                        content: '정말 삭제하시나요?',
+                        btn: '삭제',
+                      );
                     });
               },
               style: TextButton.styleFrom(

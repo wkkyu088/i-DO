@@ -72,9 +72,14 @@ Item getItem(e) {
   return item;
 }
 
-void updateItem(id, newTitle) {
-  firestore.doc(id).update({'title': newTitle});
-  items[id]!.title = newTitle;
+void updateItem(id, field, content) {
+  if (field == 'title') {
+    firestore.doc(id).update({'title': content});
+    items[id]!.title = content;
+  } else if (field == 'colors') {
+    firestore.doc(id).update({'colors': content});
+    items[id]!.colors = content;
+  }
 }
 
 void deleteItem(id) {
