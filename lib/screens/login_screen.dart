@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ido/main.dart';
 
 import '../constants.dart';
+import '../widgets/toast_message.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -48,6 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
+                  // Text(userName),
+                  // Text(uid),
+                  // Text(items.toString()),
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: Text(
@@ -147,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     controller: pwCont,
                     maxLines: 1,
-                    maxLength: 10,
+                    maxLength: 20,
                     obscureText: true,
                     obscuringCharacter: "*",
                     style: TextStyle(fontSize: kSmall),
@@ -195,6 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             final v = user.data() as Map;
                             userName = v['userName'];
                             uid = userCredential.user!.uid;
+                            print(userName);
+                            print(uid);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -203,8 +209,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
                             print('등록되지 않은 이메일');
+                            toastMessages(context, "등록되지 않은 이메일입니다.");
                           } else if (e.code == 'wrong-password') {
                             print('비밀번호가 틀림');
+                            toastMessages(context, "비밀번호가 틀렸습니다.");
+                          } else if (e.code == 'invalid-email') {
+                            print('잘못된 이메일 형식');
+                            toastMessages(context, "잘못된 이메일 형식입니다.");
                           } else {
                             print(e.code);
                           }
@@ -240,23 +251,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               'userName': emailCont.text,
                               'email': emailCont.text
                             });
-                            userName = emailCont.text;
+                            userName = emailCont.text.substring(0, 5);
                             uid = userCredential.user!.uid;
+                            print(userName);
+                            print(uid);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const MainPage()));
                           }
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'weak-password') {
-                            print('비밀번호가 너무 약함');
-                          } else if (e.code == 'email-already-in-use') {
+                          if (e.code == 'email-already-in-use') {
                             print('이미 계정이 있음');
+                            toastMessages(context, "이미 있는 계정입니다.");
+                          } else if (e.code == 'weak-password') {
+                            print('비밀번호가 너무 약함');
+                            toastMessages(context, "비밀번호가 너무 약합니다.");
+                          } else if (e.code == 'invalid-email') {
+                            print('잘못된 이메일 형식');
+                            toastMessages(context, "잘못된 이메일 형식입니다.");
                           } else {
                             print('${e.code} : 알 수 없는 오류');
                           }
-                        } catch (e) {
-                          print('끝');
                         }
                       },
                       style: TextButton.styleFrom(
