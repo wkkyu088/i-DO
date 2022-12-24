@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
@@ -75,8 +74,16 @@ Widget challengeCard(
                             });
                       },
                       style: TextButton.styleFrom(primary: kLightGrey),
-                      child: Text('수정',
-                          style: TextStyle(color: kBlack, fontSize: kMedium)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.edit_rounded, size: 18, color: kBlack),
+                          const SizedBox(width: 5),
+                          Text('수정',
+                              style:
+                                  TextStyle(color: kBlack, fontSize: kMedium)),
+                        ],
+                      ),
                     ),
                     Container(
                       height: 1,
@@ -102,8 +109,16 @@ Widget challengeCard(
                             });
                       },
                       style: TextButton.styleFrom(primary: kLightGrey),
-                      child: Text('삭제',
-                          style: TextStyle(color: kBlack, fontSize: kMedium)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.delete_rounded, size: 18, color: kDelete),
+                          const SizedBox(width: 5),
+                          Text('삭제',
+                              style:
+                                  TextStyle(color: kDelete, fontSize: kMedium)),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -146,7 +161,7 @@ Widget challengeCard(
                             ])),
                     child: Text(
                       '$days일',
-                      style: TextStyle(color: kWhite, fontSize: kXSmall + 1),
+                      style: TextStyle(color: kWhite, fontSize: kXSmall),
                     ),
                   ),
                   Padding(
@@ -154,12 +169,12 @@ Widget challengeCard(
                     child: Text(
                       title,
                       style: TextStyle(
-                          color: colorChart[colors][0], fontSize: kBig + 1),
+                          color: colorChart[colors][0], fontSize: kBig),
                     ),
                   ),
                   Text(
                     '${DateFormat('yy.MM.dd').format(startDate)} ~ ${DateFormat('yy.MM.dd').format(endDate)}',
-                    style: TextStyle(color: kGrey, fontSize: kXSmall + 1),
+                    style: TextStyle(color: kGrey, fontSize: kXSmall),
                   ),
                 ],
               ),

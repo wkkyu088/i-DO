@@ -40,7 +40,7 @@ class modifyDialogState extends State<modifyDialog> {
     controller.text = items[widget.id]!.title;
 
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusL),
+      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusM),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       contentPadding: const EdgeInsets.only(top: 30, bottom: 10),
       content: SizedBox(

@@ -10,7 +10,7 @@ toastMessages(context, msg) {
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
         Future.delayed(const Duration(milliseconds: 1500), () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
         });
 
         return AlertDialog(

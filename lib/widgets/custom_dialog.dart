@@ -20,7 +20,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusL),
+      shape: RoundedRectangleBorder(borderRadius: kBorderRadiusM),
       actionsAlignment: btn == '삭제'
           ? MainAxisAlignment.spaceEvenly
           : MainAxisAlignment.center,
