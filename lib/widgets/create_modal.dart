@@ -307,6 +307,7 @@ class _CreateModalState extends State<CreateModal> {
                             DateTime(year, month, day),
                             [3] + List<int>.filled(int.parse(dateValue) - 1, 0),
                             '',
+                            uid,
                           );
 
                           // 최신순으로 정렬해서 해야하나...?

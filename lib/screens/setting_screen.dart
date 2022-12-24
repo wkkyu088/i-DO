@@ -32,7 +32,7 @@ class _SettingScreenState extends State<SettingScreen> {
         trailing: onTap != null
             ? Icon(Icons.chevron_right_rounded, color: kBlack, size: 26)
             : Text(
-                '현재 : $user',
+                '현재 : $userName',
                 style: TextStyle(color: kGrey, fontSize: kMedium),
               ),
       );
@@ -73,7 +73,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       )),
                       TextButton(
                         onPressed: () {
-                          user = userValue;
+                          userName = userValue;
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'item.dart';
 import 'test.dart';
+import '../constants.dart';
 
 final firestore = FirebaseFirestore.instance.collection('item');
 
-void createItem(id, days, title, colors, startDate, contents, isDone) {
+void createItem(id, days, title, colors, startDate, contents, isDone, uid) {
   Item item = Item(
     id: id,
     days: int.parse(days),
@@ -15,6 +16,7 @@ void createItem(id, days, title, colors, startDate, contents, isDone) {
     colors: colors,
     contents: contents,
     isDone: isDone,
+    uid: uid,
   );
   items[id] = item;
 
@@ -25,6 +27,7 @@ void createItem(id, days, title, colors, startDate, contents, isDone) {
     'colors': colors,
     'contents': contents,
     'isDone': isDone,
+    'uid': uid,
   });
 }
 
@@ -39,6 +42,7 @@ Item getItem(e) {
   final endDate = startDate.add(Duration(days: days - 1));
   final contents = v['contents'];
   final isDone = v['isDone'];
+  final _uid = v['uid'];
 
   Item item = Item(
     id: e.id,
@@ -49,6 +53,7 @@ Item getItem(e) {
     colors: colors,
     contents: contents,
     isDone: isDone,
+    uid: _uid,
   );
 
   items[id] = item;

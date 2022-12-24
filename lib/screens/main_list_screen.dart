@@ -101,8 +101,12 @@ class _MainListScreenState extends State<MainListScreen> {
           },
           child: RawScrollbar(
               child: FutureBuilder<QuerySnapshot>(
-                  future:
-                      firestore.orderBy('startDate', descending: true).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('item')
+                      .where('uid', isEqualTo: uid)
+                      .get(),
+                  // future:
+                  //     firestore.orderBy('startDate', descending: true).get(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -111,31 +115,35 @@ class _MainListScreenState extends State<MainListScreen> {
                         ),
                       );
                     }
-
                     return snapshot.data!.docs.isEmpty
                         ? totallyEmpty()
                         : ListView(
                             children: snapshot.data!.docs.map((e) {
-                              Item i = getItem(e);
-
-                              return challengeCard(
-                                  context,
-                                  i.id,
-                                  i.colors,
-                                  i.days,
-                                  i.title,
-                                  i.startDate,
-                                  i.endDate,
-                                  i.isDone, () {
-                                Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChallengeScreen(id: i.id)))
-                                    .then((value) {
-                                  setState(() {});
+                              final v = e.data() as Map;
+                              if (uid == v['uid']) {
+                                Item i = getItem(e);
+                                print(i.title);
+                                return challengeCard(
+                                    context,
+                                    i.id,
+                                    i.colors,
+                                    i.days,
+                                    i.title,
+                                    i.startDate,
+                                    i.endDate,
+                                    i.isDone, () {
+                                  Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChallengeScreen(id: i.id)))
+                                      .then((value) {
+                                    setState(() {});
+                                  });
                                 });
-                              });
+                              } else {
+                                return Container();
+                              }
                             }).toList(),
                           );
                   })),

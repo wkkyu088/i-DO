@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-String user = 'iDO';
+String userName = "";
+String uid = "";
 
 // Colors
 Color kWhite = const Color(0xFFFAFAFA);
 Color kBlack = const Color(0xFF262626);
 Color kGrey = const Color(0xFFBFBFBF);
+Color kMediumGrey = const Color(0xFFD3D3D3);
 Color kLightGrey = const Color(0xFFE7E6E6);
 
 Color kPoint = const Color(0xFF93B4F5);

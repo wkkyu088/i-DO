@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ido/screens/login_screen.dart';
 
 import '../constants.dart';
 import '../main.dart';
@@ -12,13 +15,31 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  startTimer() async {
+    return Timer(const Duration(seconds: 2), initApp);
+  }
+
+  void initApp() async {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    print(currentUser);
+    var user = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser!.uid)
+        .get();
+    final v = user.data() as Map;
+    userName = v['userName'];
+    uid = currentUser.uid;
+    FirebaseAuth.instance.currentUser != null
+        ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const MainPage()))
+        : Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const LoginScreen()));
+  }
+
   @override
   void initState() {
     super.initState();
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MainPage())));
+    startTimer();
   }
 
   @override

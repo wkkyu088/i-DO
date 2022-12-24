@@ -231,8 +231,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                     ])),
                             child: Text(
                               '${items[id]!.days}일',
-                              style: TextStyle(
-                                  color: kWhite, fontSize: kXSmall + 1),
+                              style:
+                                  TextStyle(color: kWhite, fontSize: kXSmall),
                             ),
                           ),
                           Padding(
@@ -241,13 +241,12 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                               items[id]!.title,
                               style: TextStyle(
                                   color: colorChart[items[id]!.colors][0],
-                                  fontSize: kBig + 1),
+                                  fontSize: kBig),
                             ),
                           ),
                           Text(
                             '${DateFormat('yy.MM.dd').format(items[id]!.startDate)} ~ ${DateFormat('yy.MM.dd').format(items[id]!.endDate)}',
-                            style:
-                                TextStyle(color: kGrey, fontSize: kXSmall + 1),
+                            style: TextStyle(color: kGrey, fontSize: kXSmall),
                           ),
                         ],
                       ),
