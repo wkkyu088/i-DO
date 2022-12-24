@@ -31,6 +31,8 @@ class _PreviousListScreenState extends State<PreviousListScreen> {
         isEmptyPrevious = false;
       }
     });
+    items = Map.fromEntries(
+        items.entries.toList()..sort((e1, e2) => e2.key.compareTo(e1.key)));
   }
 
   @override

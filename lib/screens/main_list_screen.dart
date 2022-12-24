@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:ido/models/item.dart';
 import 'package:ido/screens/challenge_screen.dart';
 
 import '../widgets/custom_appbar.dart';
@@ -24,7 +23,6 @@ class MainListScreen extends StatefulWidget {
 class _MainListScreenState extends State<MainListScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool _showFab = true;
-  Map<String, dynamic>? v = {};
 
   @override
   void initState() {
@@ -59,11 +57,25 @@ class _MainListScreenState extends State<MainListScreen> {
     // );
   }
 
+  _future() async {
+    var snapshot = await FirebaseFirestore.instance
+        .collection('item')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    for (var e in snapshot.docs) {
+      getItem(e);
+    }
+
+    items = Map.fromEntries(
+        items.entries.toList()..sort((e1, e2) => e2.key.compareTo(e1.key)));
+
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     const duration = Duration(milliseconds: 200);
-
-    items.clear();
 
     return Scaffold(
       key: scaffoldKey,
@@ -100,13 +112,8 @@ class _MainListScreenState extends State<MainListScreen> {
             return Future<void>.value();
           },
           child: RawScrollbar(
-              child: FutureBuilder<QuerySnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection('item')
-                      .where('uid', isEqualTo: uid)
-                      .get(),
-                  // future:
-                  //     firestore.orderBy('startDate', descending: true).get(),
+              child: FutureBuilder(
+                  future: _future(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -115,36 +122,30 @@ class _MainListScreenState extends State<MainListScreen> {
                         ),
                       );
                     }
-                    return snapshot.data!.docs.isEmpty
+                    return items.isEmpty
                         ? totallyEmpty()
-                        : ListView(
-                            children: snapshot.data!.docs.map((e) {
-                              final v = e.data() as Map;
-                              if (uid == v['uid']) {
-                                Item i = getItem(e);
-                                print(i.title);
-                                return challengeCard(
+                        : ListView.builder(
+                            itemCount: items.length,
+                            itemBuilder: (context, i) {
+                              String key = items.keys.elementAt(i);
+                              return challengeCard(
+                                  context,
+                                  items[key]!.id,
+                                  items[key]!.colors,
+                                  items[key]!.days,
+                                  items[key]!.title,
+                                  items[key]!.startDate,
+                                  items[key]!.endDate,
+                                  items[key]!.isDone, () {
+                                Navigator.push(
                                     context,
-                                    i.id,
-                                    i.colors,
-                                    i.days,
-                                    i.title,
-                                    i.startDate,
-                                    i.endDate,
-                                    i.isDone, () {
-                                  Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChallengeScreen(id: i.id)))
-                                      .then((value) {
-                                    setState(() {});
-                                  });
+                                    MaterialPageRoute(
+                                        builder: (context) => ChallengeScreen(
+                                            id: items[key]!.id))).then((value) {
+                                  setState(() {});
                                 });
-                              } else {
-                                return Container();
-                              }
-                            }).toList(),
+                              });
+                            },
                           );
                   })),
         ),
