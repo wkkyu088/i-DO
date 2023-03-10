@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 String userName = "";
 String uid = "";
+String email = "";
+String selectedfont = "BMJUA";
 
 // Colors
 Color kWhite = const Color(0xFFFAFAFA);

@@ -198,6 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .get();
                             final v = user.data() as Map;
                             userName = v['userName'];
+                            email = v['email'];
                             uid = userCredential.user!.uid;
                             print(userName);
                             print(uid);
@@ -253,6 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                             userName = emailCont.text.substring(0, 5);
                             uid = userCredential.user!.uid;
+                            email = emailCont.text;
                             print(userName);
                             print(uid);
                             Navigator.push(

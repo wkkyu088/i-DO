@@ -22,18 +22,22 @@ class _SplashScreenState extends State<SplashScreen> {
   void initApp() async {
     var currentUser = FirebaseAuth.instance.currentUser;
     print(currentUser);
-    var user = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser!.uid)
-        .get();
-    final v = user.data() as Map;
-    userName = v['userName'];
-    uid = currentUser.uid;
-    FirebaseAuth.instance.currentUser != null
-        ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MainPage()))
-        : Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const LoginScreen()));
+
+    if (FirebaseAuth.instance.currentUser == null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const LoginScreen()));
+    } else {
+      var user = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser!.uid)
+          .get();
+      final v = user.data() as Map;
+      userName = v['userName'];
+      uid = currentUser.uid;
+      email = v['email'];
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const MainPage()));
+    }
   }
 
   @override

@@ -38,10 +38,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   modal_bottom_sheet: ^2.1.0
   intl: ^0.17.0
-  firebase_core: ^1.21.1
-  cloud_firestore: ^3.4.6
-  firebase_auth: ^3.11.2
-  google_sign_in: ^5.4.2
+  firebase_core: ^2.7.1
+  cloud_firestore: ^4.4.4
+  firebase_auth: ^4.2.10
+  google_sign_in: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -84,12 +84,12 @@ flutter:
     - family: BMJUA
       fonts:
         - asset: assets/fonts/BMJUA_ttf.ttf
-    - family: NanumSquareR
-      fonts:
-        - asset: assets/fonts/NanumSquareR.ttf
     - family: NanumSquareB
       fonts:
         - asset: assets/fonts/NanumSquareB.ttf
+    - family: PretendardB
+      fonts:
+        - asset: assets/fonts/Pretendard-ExtraBold.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

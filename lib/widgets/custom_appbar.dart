@@ -4,10 +4,8 @@ import '../widgets/custom_dialog.dart';
 import '../constants.dart';
 
 AppBar customAppBar(String icon, String title, scaffoldKey, context) {
-  final double height = MediaQuery.of(context).size.height;
-
   return AppBar(
-    toolbarHeight: height * 0.09,
+    toolbarHeight: 70,
     iconTheme: IconThemeData(color: kBlack),
     centerTitle: true,
     title: Container(
@@ -15,7 +13,7 @@ AppBar customAppBar(String icon, String title, scaffoldKey, context) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          title == '설정'
+          icon == ""
               ? Container()
               : Container(
                   padding: const EdgeInsets.only(top: 1.5, right: 5),
@@ -27,7 +25,7 @@ AppBar customAppBar(String icon, String title, scaffoldKey, context) {
     ),
     elevation: 0,
     backgroundColor: kWhite,
-    leading: title == '설정' || title == ''
+    leading: icon == "" || title == ''
         ? IconButton(
             onPressed: () {
               Navigator.pop(context);

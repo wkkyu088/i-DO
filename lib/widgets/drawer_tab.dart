@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ido/screens/login_screen.dart';
 
+import '../models/test.dart';
 import '../screens/main_list_screen.dart';
 import '../screens/previous_list_screen.dart';
 import '../screens/present_list_screen.dart';
@@ -26,12 +29,12 @@ class _DrawerTabState extends State<DrawerTab> {
       return ListTile(
         title: Text(
           title,
-          style: TextStyle(fontSize: kLarge),
+          style: TextStyle(fontSize: kMedium),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
         horizontalTitleGap: 0,
         minLeadingWidth: 27,
-        leading: Text(leading, style: TextStyle(fontSize: kMedium)),
+        leading: Text(leading, style: TextStyle(fontSize: kSmall)),
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => page));
@@ -60,40 +63,40 @@ class _DrawerTabState extends State<DrawerTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(bottom: 18),
-                  padding: const EdgeInsets.all(15),
-                  // child: IconButton(
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => const SettingScreen()));
-                  //   },
-                  //   icon: Icon(
-                  //     Icons.settings_rounded,
-                  //     color: kBlack,
-                  //     size: kIcon,
-                  //   ),
-                  //   padding: const EdgeInsets.all(5),
-                  //   constraints: const BoxConstraints(),
-                  // ),
+                  margin: const EdgeInsets.only(bottom: 25),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SettingScreen()));
+                    },
+                    icon: Icon(
+                      Icons.settings_rounded,
+                      color: kBlack,
+                      size: kIcon,
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    constraints: const BoxConstraints(),
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 6),
+                          horizontal: 8, vertical: 5),
                       child: Text(
-                        '$user ,',
-                        style: TextStyle(fontSize: kBig + 4, color: kPoint),
+                        '${userName} 님',
+                        style: TextStyle(fontSize: kBig + 2, color: kPoint),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         '나도할수있다 😎',
-                        style: TextStyle(fontSize: kBig, color: kBlack),
+                        style: TextStyle(fontSize: kXLarge, color: kBlack),
                       ),
                     ),
                   ],
@@ -111,6 +114,18 @@ class _DrawerTabState extends State<DrawerTab> {
           _divider(),
           customListTile(kFailureTitle, '❓', const FailureListScreen()),
           _divider(),
+          TextButton(
+            onPressed: () {
+              print("로그아웃됨");
+              FirebaseAuth.instance.signOut();
+              userName = "";
+              uid = "";
+              items.clear();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+            child: Text("로그아웃"),
+          ),
         ],
       ),
     );

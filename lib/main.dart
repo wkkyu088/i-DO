@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'BMJUA',
+          fontFamily: selectedfont,
           colorScheme: ColorScheme(
               brightness: Brightness.light,
               primary: kPoint,
